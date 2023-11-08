@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AGING REPORT</title>
+    <link rel="icon" href="favicon.ico" type="image/ico">
+
+    <style>
+ tbody {
+    height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+ tbody { display: block; }
+
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td {
+         
+          text-align: left;
+          padding: 4px;
+        }
+         th {
+         background-color:#d0d8dd;
+         margin:0;border:0;
+         text-align: left;
+         padding: 2px;
+         font-weight: bold;
+       }
+        </style>
+    <style>
+        
+        body{
+            margin: 0;
+            overflow: hidden;
+            background: #ffffff;
+            font-family: roboto, sans-serif;
+        }
+        #window-dim{
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        #window{
+            background: #fff;
+            padding: 20px;
+            border-radius: 2px;
+            width: 100%;
+            max-width: 400px;
+            min-height: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+        #window #content{
+            display: flex;
+            margin: 10px 0;
+            flex-direction: column;
+        }
+        #window #title{
+            color: #121212;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        #window #selecty{
+            display: flex;
+            justify-content: flex-end;
+        }
+        #window #selecty .button{
+            padding: 10px;
+            background: #0c66a0;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        }
+        #window #selecty .left{
+            margin-right: 5px;
+        }
+        #window #selecty .right{
+            margin-left: 5px;
+        }
+        
+        #window #selecty .selected{
+            background: #004a79;
+        }
+        #window #title-in{
+            border: 1px solid #b2b2b2;
+            padding: 5px;
+            outline: none;
+            font-size: 18px;
+        }
+        #window #buttons{
+            display: flex;
+            justify-content: flex-end;
+        }
+        #window #buttons .button{
+            padding: 10px;
+            background: #0c66a0;
+            color: #fff;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #top-bar{
+            background: #0c66a0;
+            height: 40px;
+            display: flex;
+        }
+        .logo-cont{
+            background: #aaaaaa;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+        .logo{
+            height: 40px;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+        .title{
+            
+            display: inline;
+            font-family: roboto, sans-serif;
+            color: #fff;
+            font-size: 20px;
+        }
+        .tab-cont{
+            display: flex;
+            align-items: flex-end;
+        }
+        .tab{
+            background: #5e90b1;
+            display: block;
+            font-family: roboto, sans-serif;
+            font-size: 18px;
+            margin: 0 0 0 3px;
+            padding: 7px;
+            border-radius: 5px 5px 0px 0px;
+            color: #0c66a0;
+            cursor: pointer;
+        }
+        .tab-selected{
+            background: #fff;
+            display: block;
+            font-family: roboto, sans-serif;
+            font-size: 18px;
+            margin: 0 0 0 3px;
+            padding: 7px;
+            border-radius: 5px 5px 0px 0px;
+            color: #0c66a0;
+        }
+        .new{
+            height: 25px;
+            width: 25px;
+            margin: 5px;
+            border-radius: 50%;
+            background-image: url('plus.png');
+            background-position: center;
+            background-size: contain;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .new:hover{
+            background-color: #105786;
+        }
+        #canvas{
+            background: #ffffff;
+        }
+        #text-box{
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        #texty{
+            text-align: center;
+            outline: none;
+            border: none;
+            font-family: roboto;
+            padding: 0;
+            margin: 0;
+            background: none;
+        }
+        #myCanvas{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fff;
+            margin: 4px;
+            border-radius: 2px;
+        }
+        #console-box{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            overflow: hidden;
+            margin: 4px;
+            border-radius: 2px;
+            background: #fff;
+        }
+        #console{
+            padding: 4px;
+            margin-right: 15px;
+            border-radius: 2px;
+            position: relative;
+            font-size: 18px;
+            font-family: consolas;
+        }
+        #console-scroll{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        #console-prompt{
+            width: auto;
+            position: absolute;
+            display: block;
+            bottom: 0;
+            right: 0;
+            margin: 4px;
+            padding: 4px;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            font-family: consolas;
+            border-radius: 2px;
+        }
+
+        table.report-container {
+    page-break-after:always;
+}
+thead.report-header {
+    display:table-header-group;
+}
+tfoot.report-footer {
+    display:table-footer-group;
+} 
+    </style>
+    <style id="selectying">
+        
+    </style>
+</head>
+<body id="body">
+
+
+<script src="p5.js"></script>
+<script src="p5.sound.min.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://unpkg.com/@free-side/audioworklet-polyfill/dist/audioworklet-polyfill.js"></script>
+
+   
+	
+    <script src="small.js"></script>
+        
+ 
+</body>
+
+</html>
+
+ 
+    <!-- <script src="csidata.json"></script> -->
+
+<script>
+
+  const urlParams = new URLSearchParams(window.location.search);
+const page = urlParams.get('a');
+let csi = ""
+if (page == 1 || page == 2)
+ csi = localStorage.getItem('csidata');
+else
+ csi = localStorage.getItem('csiCSdata');
+
+function offset(el) {
+    var rect = el.getBoundingClientRect(),
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+}
+
+function divprint(divc) { 
+ //   var divContents = document.getElementById("myCanvas").innerHTML; 
+  var a = window.open('', '', 'height=500, width=500'); 
+  a.document.write('<html>'); 
+  a.document.write('<body >');
+  a.document.write(divc); 
+  a.document.write('</body></html>'); 
+  a.document.close(); 
+  a.print(); 
+} 
+
+//setup();
+
+</script>   
+    <script src="init.js"></script>
+    <!-- <script src="sketch.js"></script> -->
